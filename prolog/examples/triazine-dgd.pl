@@ -1,5 +1,5 @@
+:-use_module(library(pascal)).
 
-:-use_module(pascal).
 
 greaterAct(_,A,B):-
     activity(_,A),

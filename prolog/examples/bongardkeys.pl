@@ -16,7 +16,7 @@ https://dtai.cs.kuleuven.be/static/ACE/doc/
 ?- induce_par([all],P).
 ?- induce([all],P).
 */
-:-use_module(pascal).
+:-use_module(library(pascal)).
 
 :-pascal.
 
