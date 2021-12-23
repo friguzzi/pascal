@@ -50,7 +50,7 @@
 :-use_module(library(auc)).
 :-use_module(ic_parser).
 
-:- thread_local  input_mod/1,p/2.
+:- thread_local  pascal_input_mod/1,p/2.
 
 :- meta_predicate induce_pascal(:,-).
 :- meta_predicate induce_par_pascal(:,-).
@@ -3209,43 +3209,20 @@ to_dyn(M,P/A):-
   A3 is A2+1,
   M:(dynamic P/A3).
 
-
-user:term_expansion((:- pascal), []) :-!,
+pascal_expansion((:- begin_bg), []) :-
   prolog_load_context(module, M),
-  retractall(M:local_setting(_,_)),
-  findall(local_setting(P,V),default_setting_pascal(P,V),L),
-  assert_all(L,M,_),
-  assert(input_mod(M)),
-  retractall(M:rule_sc_n(_)),
-  assert(M:rule_sc_n(0)),
-  M:dynamic((modeh/2,mult/2,modeb/2,
-    lookahead/2,
-    lookahead_cons/2,lookahead_cons_var/2,
-    bg_on/0,bg/1,bgc/1,in_on/0,in/1,inc/1,int/1,
-    p/2,model/1,ref_th/2)),
-  style_check(-discontiguous).
-
-
-user:term_expansion(end_of_file, C) :-
-  prolog_load_context(module, M),
-  input_mod(M),!,
-%  make_dynamic(M),
-  append([],[(:- style_check(+discontiguous)),end_of_file],C).
-
-user:term_expansion((:- begin_bg), []) :-
-  prolog_load_context(module, M),
-  input_mod(M),!,
+  pascal_input_mod(M),!,
   assert(M:bg_on).
 
-user:term_expansion(C, M:bgc(C)) :-
+pascal_expansion(C, M:bgc(C)) :-
   prolog_load_context(module, M),
   C\= (:- end_bg),
-  input_mod(M),
+  pascal_input_mod(M),
   M:bg_on,!.
 
-user:term_expansion((:- end_bg), []) :-
+pascal_expansion((:- end_bg), []) :-
   prolog_load_context(module, M),
-  input_mod(M),!,
+  pascal_input_mod(M),!,
   retractall(M:bg_on),
   findall(C,M:bgc(C),L),
   retractall(M:bgc(_)),
@@ -3257,26 +3234,26 @@ user:term_expansion((:- end_bg), []) :-
     assert(M:bg(L))
   ).
 
-user:term_expansion((:- begin_in), []) :-
+pascal_expansion((:- begin_in), []) :-
   prolog_load_context(module, M),
-  input_mod(M),!,
+  pascal_input_mod(M),!,
   assert(M:in_on).
 
-user:term_expansion(rule(C,P), M:inc(rule(C,P))) :-
+pascal_expansion(rule(C,P), M:inc(rule(C,P))) :-
   prolog_load_context(module, M),
-  input_mod(M),
+  pascal_input_mod(M),
   M:in_on,!.
 
-user:term_expansion(ic(String), M:inc(rule((Head:-Body),P))) :-
+pascal_expansion(ic(String), M:inc(rule((Head:-Body),P))) :-
   prolog_load_context(module, M),
-  input_mod(M),
+  pascal_input_mod(M),
   M:in_on,!,
   parse_ics_string(String,ICs),
   add_var(ICs,[rule(((Head,_):-(Body,_)),0,P)]).
 
-user:term_expansion((:- end_in), []) :-
+pascal_expansion((:- end_in), []) :-
   prolog_load_context(module, M),
-  input_mod(M),!,
+  pascal_input_mod(M),!,
   retractall(M:in_on),
   findall(C,M:inc(C),L),
   retractall(M:inc(_)),
@@ -3288,21 +3265,21 @@ user:term_expansion((:- end_in), []) :-
     assert(M:in(L))
   ).
 
-user:term_expansion(begin(model(I)), []) :-
+pascal_expansion(begin(model(I)), []) :-
   prolog_load_context(module, M),
-  input_mod(M),!,
+  pascal_input_mod(M),!,
   retractall(M:model(_)),
   assert(M:model(I)),
   assert(M:int(I)).
 
-user:term_expansion(end(model(_I)), []) :-
+pascal_expansion(end(model(_I)), []) :-
   prolog_load_context(module, M),
-  input_mod(M),!,
+  pascal_input_mod(M),!,
   retractall(M:model(_)).
 
-user:term_expansion(At, A) :-
+pascal_expansion(At, A) :-
   prolog_load_context(module, M),
-  input_mod(M),
+  pascal_input_mod(M),
   M:model(Name),
   At \= (_ :- _),
   At \= end_of_file,
@@ -3319,3 +3296,43 @@ user:term_expansion(At, A) :-
       A=Atom1
     )
   ).
+
+
+
+
+:- thread_local pascal_file/1.
+
+user:term_expansion((:- pascal), []) :-!,
+  prolog_load_context(source, Source),
+  asserta(pascal_file(Source)),
+  prolog_load_context(module, M),
+  retractall(M:local_setting(_,_)),
+  findall(local_setting(P,V),default_setting_pascal(P,V),L),
+  assert_all(L,M,_),
+  assert(pascal_input_mod(M)),
+  retractall(M:rule_sc_n(_)),
+  assert(M:rule_sc_n(0)),
+  M:dynamic((modeh/2,mult/2,modeb/2,
+    lookahead/2,
+    lookahead_cons/2,lookahead_cons_var/2,
+    bg_on/0,bg/1,bgc/1,in_on/0,in/1,inc/1,int/1,
+    p/2,model/1,ref_th/2,fold/2)),
+  style_check(-discontiguous).
+
+
+user:term_expansion(end_of_file, C) :-
+  pascal_file(Source),
+  prolog_load_context(source, Source),
+  retractall(pascal_file(Source)),
+  prolog_load_context(module, M),
+  pascal_input_mod(M),!,
+  retractall(pascal_input_mod(M)),
+  C=[(:- style_check(+discontiguous)),end_of_file].
+
+user:term_expansion(In, Out) :-
+  \+ current_prolog_flag(xref, true),
+  pascal_file(Source),
+  prolog_load_context(source, Source),
+  pascal_expansion(In, Out).
+
+
