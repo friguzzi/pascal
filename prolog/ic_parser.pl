@@ -278,12 +278,12 @@ head_tail([Disjunct|MoreDisjuncts]) -->
 head_tail([]) -->
 	[].
 
-disjunct((-,[Conjunct|MoreConjuncts],_)) -->
+disjunct((-,[Conjunct|MoreConjuncts])) -->
 	en(Conjunct),
 	disjunct_tail(MoreConjuncts),!,
 	closing_parenthesis.
 
-disjunct((+,[Conjunct|MoreConjuncts],_)) -->
+disjunct((+,[Conjunct|MoreConjuncts])) -->
 	content(Conjunct),
 	disjunct_tail(MoreConjuncts).
 
