@@ -3169,24 +3169,22 @@ average(L,Av):-
 
 
 /**
- * set_sc(:Parameter:atom,+Value:term) is det
+ * set_pascal(:Parameter:atom,+Value:term) is det
  *
  * The predicate sets the value of a parameter
  * For a list of parameters see
- * https://github.com/friguzzi/cplint/blob/master/doc/manual.pdf or
- * http://ds.ing.unife.it/~friguzzi/software/cplint-swi/manual.html
+ * https://github.com/friguzzi/pascal/blob/master/doc/manual.pdf or
  */
 set_pascal(M:Parameter,Value):-
   retract(M:local_setting(Parameter,_)),
   assert(M:local_setting(Parameter,Value)).
 
 /**
- * setting_sc(:Parameter:atom,-Value:term) is det
+ * setting_pascal(:Parameter:atom,-Value:term) is det
  *
  * The predicate returns the value of a parameter
  * For a list of parameters see
- * https://github.com/friguzzi/cplint/blob/master/doc/manual.pdf or
- * http://ds.ing.unife.it/~friguzzi/software/cplint-swi/manual.html
+ * https://github.com/friguzzi/pascal/blob/master/doc/manual.pdf or
  */
 setting_pascal(M:P,V):-
   M:local_setting(P,V).
