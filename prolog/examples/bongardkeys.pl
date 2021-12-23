@@ -34,9 +34,6 @@ https://dtai.cs.kuleuven.be/static/ACE/doc/
 :-set_pascal(bottom_clause,no).
 
 :-set_pascal(gd_iter,1000).
-:-set_pascal(fixed_parameters,no).
-%:-set_pascal(fixed_parameters,[_3092,_3098,_3104,_3110,_3116,_3122,_3128,_3134,_3140,_3146]).
-%:-set_pascal(fixed_parameters,[_3092,_3098,_3104,_3110,_3116,_3122]).
 :-set_pascal(epsilon_em,0.0001).
 :-set_pascal(epsilon_em_fraction,0.0001).
 :-set_pascal(max_length,8).
@@ -45,7 +42,7 @@ https://dtai.cs.kuleuven.be/static/ACE/doc/
 :-set_pascal(beamsize,2).
 :-set_pascal(min_accuracy,0.5).
 :-set_pascal(max_rules,5).
-%:-set_pascal(verbosity,0).
+:-set_pascal(verbosity,0).
 
 bg([]).
 

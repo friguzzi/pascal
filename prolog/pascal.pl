@@ -133,16 +133,25 @@ default_setting_pascal(regularizing_constant,5).
 default_setting_pascal(regularization,2).
 % allowed values: 1, 2
 
-
+/**
+ * test_pascal(:T:probabilistic_program,+TestFolds:list_of_atoms,-LL:float,-AUCROC:float,-ROC:dict,-AUCPR:float,-PR:dict) is det
+ *
+ * The predicate takes as input in T a probabilistic constraint logic theory,
+ * tests T on the folds indicated in TestFolds and returns the
+ * log likelihood of the test examples in LL, the area under the Receiver
+ * Operating Characteristic curve in AUCROC, a dict containing the points
+ * of the ROC curve in ROC, the area under the Precision Recall curve in AUCPR
+ * and a dict containing the points of the PR curve in PR
+ */
 test_pascal(P,TestFolds,LL,AUCROC,ROC,AUCPR,PR):-
   test_prob_pascal(P,TestFolds,_NPos,_NNeg,LL,LG),
   compute_areas_diagrams(LG,AUCROC,ROC,AUCPR,PR).
 
 /**
- * test_prob(:P:probabilistic_program,+TestFolds:list_of_atoms,-NPos:int,-NNeg:int,-LL:float,-Results:list) is det
+ * test_prob_pascal(:T:probabilistic_program,+TestFolds:list_of_atoms,-NPos:int,-NNeg:int,-LL:float,-Results:list) is det
  *
- * The predicate takes as input in P a probabilistic program,
- * tests P on the folds indicated in TestFolds and returns
+ * The predicate takes as input in T a probabilistic constraint logic theory,
+ * tests T on the folds indicated in TestFolds and returns
  * the number of positive examples in NPos, the number of negative examples
  * in NNeg, the log likelihood in LL
  * and in Results a list containing the probabilistic result for each query contained in TestFolds.
@@ -209,10 +218,25 @@ is_pos(M,Mod):-
 compute_prob(rule(_,_,P),N,LL0,LL):-
   LL is LL0+N*log(1-P).
 
+/**
+ * induce_pascal(:TrainFolds:list_of_atoms,-T:probabilistic_theory) is det
+ *
+ * The predicate performs structure learning using the folds indicated in
+ * TrainFolds for training.
+ * It returns in T the learned probabilistic constraint logic theory.
+ */
 induce_pascal(M:Folds,P):-
   induce_int(Folds,M,_DB,Program),
   rule_to_ext(Program,P).
 
+
+/**
+ * induce_par_pascal(:TrainFolds:list_of_atoms,-T:probabilistic_program) is det
+ *
+ * The predicate learns the parameters of the theory stored in begin_in/end_in
+ * section of the input file using the folds indicated in TrainFolds for training.
+ * It returns in T the input theory with the updated parameters.
+ */
 induce_par_pascal(M:Folds,P):-
   induce_par_int(Folds,M,_DB,Program),
   rule_to_ext(Program,P).
