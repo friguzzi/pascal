@@ -46,6 +46,22 @@ https://dtai.cs.kuleuven.be/static/ACE/doc/
 bg([]).
 
 in([]).
+
+:- begin_in.
+
+ic("0.336729 :: 	true
+--->
+	pos.").
+ic("0.357139 :: 	circle(A)
+	/\\circle(B)
+--->
+	pos.").
+ic("0.364293 :: 	square(A)
+	/\\square(B)
+--->
+	pos.").
+
+:- end_in.
 /*
 (
  pos:0.5 :-

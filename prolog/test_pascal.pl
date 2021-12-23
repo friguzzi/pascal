@@ -54,6 +54,8 @@ test(i_bupa):-
 test(i_bong):-
   induce_pascal([train],P),test_prob_pascal(P,[test],_Pos,_Neg,_LL,_L).
 
+test(i_p_bong):-
+  induce_par_pascal([train],_P).
 
 :- end_tests(bongard).
 
