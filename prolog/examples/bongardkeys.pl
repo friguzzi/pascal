@@ -50,17 +50,11 @@ in([]).
 
 :- begin_in.
 
-ic("0.336729 :: 	true
+ic("0.5 :: 	triangle(T)/\\square(S)/\\in(T,S)
 --->
-	pos.").
-ic("0.357139 :: 	circle(A)
-	/\\circle(B)
---->
-	pos.").
-ic("0.364293 :: 	square(A)
-	/\\square(B)
---->
-	pos.").
+	circle(C)/\\in(C,S)
+  \\/
+  not(circle(C)/\\in(C,T)).").
 
 :- end_in.
 /*
