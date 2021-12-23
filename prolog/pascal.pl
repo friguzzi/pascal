@@ -2639,42 +2639,52 @@ write_head([]):-
   write('false.'),nl.
 
 write_head([(Sign,[A|T],_DL)]):-!,
-   write('\t'),
-  (Sign = '+' ->
-    write('E(')
-  ; (Sign = '+=' ->
-  	write('E(')
-    ;
-  	write('EN(')
-    ) 		
+  write('\t'),
+  ((Sign = '-';Sign = '-=') ->
+  	write('not(')
+  ;
+   	true
   ),
     %  write(A),
 	write_term(A,[numbervars(true)]),
   (T=[]->
-    write(')')
+    ((Sign='-';Sign='-=')->
+      write(')')
+    ;
+      true
+    )
   ;
-    write(')\n\t/\\'),
+    ((Sign='-';Sign='-=')->
+      write(')\n\t/\\')
+    ;
+      write('\n\t/\\')
+    ),
     write_list(T)
   ),
   write('.'),
   nl.
 
 write_head([(Sign,[A|T],_DL)|HT]):-!,
-   write('\t'),
-  (Sign = '+' ->
-    write('E(')
-  ; (Sign = '+=' ->
-  	write('E(')
-    ;
-  	write('EN(')
-    ) 		
+  write('\t'),
+  ((Sign = '-';Sign = '-=') ->
+  	write('not(')
+  ;
+   	true
   ),
     %  write(A),
 	write_term(A,[numbervars(true)]),
   (T=[]->
-    write(')')
+    ((Sign='-';Sign='-=')->
+      write(')')
+    ;
+      true
+    )
   ;
-    write(')\n\t/\\'),
+    ((Sign='-';Sign='-=')->
+      write(')\n\t/\\')
+    ;
+      write('\n\t/\\')
+    ),
     write_list(T)
   ),
   nl,
