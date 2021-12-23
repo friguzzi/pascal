@@ -182,8 +182,8 @@ is_pos(M,Mod):-
   (Mod:local_setting(examples,keys(P))->
     AtomP=..[P,M,pos],
     Atom=..[P,M],
-    (current_predicate(P/1)->
-      (current_predicate(P/2)->
+    (current_predicate(Mod:P/1)->
+      (current_predicate(Mod:P/2)->
         (Mod:AtomP;Mod:Atom)
       ;
         Mod:Atom
@@ -2011,8 +2011,8 @@ get_pos_neg(DB,Mod,Pos,Neg):-
   (Mod:local_setting(examples,keys(P))->
     AtomP=..[P,M,pos],
     Atom=..[P,M],
-    (current_predicate(P/1)->
-      (current_predicate(P/2)->
+    (current_predicate(Mod:P/1)->
+      (current_predicate(Mod:P/2)->
         findall(M,(member(M,DB),(Mod:AtomP;Mod:Atom)),Pos0),
         findall(M,(member(M,DB),\+ Mod:AtomP,\+ Mod:Atom),Neg)
       ;
