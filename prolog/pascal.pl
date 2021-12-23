@@ -65,6 +65,15 @@
 :- meta_predicate induce_par_pascal_func(:,-,-,-,-).
 
 
+:- multifile sandbox:safe_meta/2.
+
+sandbox:safe_meta(pascal:induce_par_pascal(_,_) ,[]).
+sandbox:safe_meta(pascal:induce_pascal(_,_), []).
+sandbox:safe_meta(pascal:test_prob_pascal(_,_,_,_,_,_), []).
+sandbox:safe_meta(pascal:test_pascal(_,_,_,_,_,_,_), []).
+sandbox:safe_meta(pascal:set_pascal(_,_), []).
+sandbox:safe_meta(pascal:setting_pascal(_,_), []).
+
 % NOTE: resi dinamici per poter fare retract nel caso non si usi la bottom_clause
 
 
@@ -3208,6 +3217,9 @@ to_dyn(M,P/A):-
   M:(dynamic P/A2),
   A3 is A2+1,
   M:(dynamic P/A3).
+
+
+
 
 pascal_expansion((:- begin_bg), []) :-
   prolog_load_context(module, M),
