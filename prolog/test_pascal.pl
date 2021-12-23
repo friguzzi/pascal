@@ -3,7 +3,7 @@
 :- use_module(library(plunit)).
 
 test_pascal:-
-    run_tests([triazine,bupa,triazinegd]).
+    run_tests([bongard,triazine,bupa,triazinegd]).
 
 :-use_module(library(cplint_test/cplint_test)).
 
@@ -45,6 +45,19 @@ test(i_bupa):-
 
 
 :- end_tests(bupa).
+
+:- begin_tests(bongard, []).
+
+
+:-ensure_loaded('examples/bongardkeys').
+:- set_pascal(verbosity,0).
+test(i_bong):-
+  induce_pascal([train],P),test_prob_pascal(P,[test],_Pos,_Neg,_LL,_L).
+
+
+:- end_tests(bongard).
+
+
 :- begin_tests(canc, []).
 
 
