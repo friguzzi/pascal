@@ -10,13 +10,17 @@ https://dtai.cs.kuleuven.be/static/ACE/doc/
 */
 
 /** <examples>
-?- induce_par([train],P),test(P,[test],LL,AUCROC,ROC,AUCPR,PR). % learn the parameteters and test the result
-?- induce([train],P),test(P,[test],LL,AUCROC,ROC,AUCPR,PR). % learn the structure and the parameters and test the result
-?- in(P),test(P,[test],LL,AUCROC,ROC,AUCPR,PR). % test the input theory
-?- induce_par([all],P).
-?- induce([all],P).
+?- induce_par_pascal([train],P),test_pascal(P,[test],LL,AUCROC,ROC,AUCPR,PR). % learn the parameteters and test the result
+?- induce_pascal([train],P),test_pascal(P,[test],LL,AUCROC,ROC,AUCPR,PR). % learn the structure and the parameters and test the result
+?- induce_par_pascal([all],P).
+?- induce_pascal([all],P).
 */
 :-use_module(library(pascal)).
+
+:- if(current_predicate(use_rendering/1)).
+:- use_rendering(c3).
+:- use_rendering(lpad).
+:- endif.
 
 :-pascal.
 
