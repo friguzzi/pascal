@@ -270,9 +270,16 @@ rule_to_ext(P0,P):-
 rule_to_int(P0,P):-
   maplist(to_int,P0,P).
 
-to_ext(rule(_,((H,_):-(B,_BL)),P),rule((H:-B),P)).
+to_ext(rule(_,((H,_):-(B,_BL)),P),rule((H1:-B),P)):-
+  maplist(remove_third_comp,H,H1).
 
-to_int(rule((H:-B),P),rule(r,((H,[]):-(B,[])),P)).
+to_int(rule((H:-B),P),rule(r,((H1,[]):-(B,[])),P)):-
+  maplist(add_third_comp,H,H1).
+
+
+remove_third_comp((A,B,_),(A,B)).
+
+add_third_comp((A,B),(A,B,[])).
 
 induce_int(Folds,M,DB,Program):-    
   statistics(runtime,[_,_]),
