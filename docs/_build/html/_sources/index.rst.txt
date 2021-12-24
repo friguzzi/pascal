@@ -472,7 +472,7 @@ The available parameters are:
 Example Files
 =============
 The :code:`pack/pascal/prolog/examples` folder in SWI-Prolog home contains some example programs. 
-The :code:`pack/pascal/docs` folder contains this manual in latex, html and pdf.
+The :code:`pack/pascal/docs` folder contains this manual in html and pdf.
 
 Manual in PDF
 ==================
