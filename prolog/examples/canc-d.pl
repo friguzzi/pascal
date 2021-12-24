@@ -1,6 +1,9 @@
 
 :-use_module(library(pascal)).
-
+:- if(current_predicate(use_rendering/1)).
+:- use_rendering(c3).
+:- use_rendering(pic).
+:- endif.
 
 greaterAct(_,A,B):-
     activity(_,A),

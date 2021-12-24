@@ -1,9 +1,11 @@
 :-use_module(library(pascal)).
 :- if(current_predicate(use_rendering/1)).
 :- use_rendering(c3).
-:- use_rendering(lpad).
+:- use_rendering(pic).
 :- endif.
-
+/** <examples>
+?- induce_pascal([train],P),test_pascal(P,[test],LL,AUCROC,ROC,AUCPR,PR). % learn the structure and the parameters and test the result
+*/
 greaterAct(_,A,B):-
     activity(_,A),
     activity(_,B),
@@ -67,77 +69,77 @@ modeb(1,bupa(-arg1,+args2)).
 modeb(1,alkphos(+arg1,+alkv)).
 modeb(1,alkphos(+arg1,#alkv)).
 modeb(1,dependencies_aux(+relation_name,+column_name,+ref_relation_name,+ref_column_name,+sign)).
-modeb(1,dependencies_aux(-#relation_name,+column_name,+ref_relation_name,+ref_column_name,+sign)).
-modeb(1,dependencies_aux(+relation_name,-#column_name,+ref_relation_name,+ref_column_name,+sign)).
-modeb(1,dependencies_aux(+relation_name,+column_name,-#ref_relation_name,+ref_column_name,+sign)).
-modeb(1,dependencies_aux(+relation_name,+column_name,+ref_relation_name,-#ref_column_name,+sign)).
-modeb(1,dependencies_aux(+relation_name,+column_name,+ref_relation_name,+ref_column_name,-#sign)).
-modeb(1,dependencies_aux(-#relation_name,-#column_name,-#ref_relation_name,-#ref_column_name,-#sign)).
+modeb(1,dependencies_aux(#relation_name,+column_name,+ref_relation_name,+ref_column_name,+sign)).
+modeb(1,dependencies_aux(+relation_name,#column_name,+ref_relation_name,+ref_column_name,+sign)).
+modeb(1,dependencies_aux(+relation_name,+column_name,#ref_relation_name,+ref_column_name,+sign)).
+modeb(1,dependencies_aux(+relation_name,+column_name,+ref_relation_name,#ref_column_name,+sign)).
+modeb(1,dependencies_aux(+relation_name,+column_name,+ref_relation_name,+ref_column_name,#sign)).
+modeb(1,dependencies_aux(#relation_name,#column_name,#ref_relation_name,#ref_column_name,#sign)).
 modeb(1,drinks(+arg1,+drinkv)).
 modeb(1,drinks(-arg1,+drinkv)).
-modeb(1,drinks(+arg1,-#drinkv)).
-modeb(1,drinks(-arg1,-#drinkv)).
+modeb(1,drinks(+arg1,#drinkv)).
+modeb(1,drinks(-arg1,#drinkv)).
 modeb(1,gammagt(+arg1,+gammav)).
 modeb(1,gammagt(-arg1,+gammav)).
-modeb(1,gammagt(+arg1,-#gammav)).
-modeb(1,gammagt(-arg1,-#gammav)).
+modeb(1,gammagt(+arg1,#gammav)).
+modeb(1,gammagt(-arg1,#gammav)).
 modeb(1,mcv(+arg1,+mcvv)).
 modeb(1,mcv(-arg1,+mcvv)).
-modeb(1,mcv(+arg1,-#mcvv)).
-modeb(1,mcv(-arg1,-#mcvv)).
+modeb(1,mcv(+arg1,#mcvv)).
+modeb(1,mcv(-arg1,#mcvv)).
 modeb(1,primForeCons_aux(+primRelName,+primFilName,+foreRelName,+foreFilName)).
-modeb(1,primForeCons_aux(-#primRelName,+primFilName,+foreRelName,+foreFilName)).
-modeb(1,primForeCons_aux(+primRelName,-#primFilName,+foreRelName,+foreFilName)).
-modeb(1,primForeCons_aux(+primRelName,+primFilName,-#foreRelName,+foreFilName)).
-modeb(1,primForeCons_aux(+primRelName,+primFilName,+foreRelName,-#foreFilName)).
-modeb(1,primForeCons_aux(-#primRelName,-#primFilName,-#foreRelName,-#foreFilName)).
+modeb(1,primForeCons_aux(#primRelName,+primFilName,+foreRelName,+foreFilName)).
+modeb(1,primForeCons_aux(+primRelName,#primFilName,+foreRelName,+foreFilName)).
+modeb(1,primForeCons_aux(+primRelName,+primFilName,#foreRelName,+foreFilName)).
+modeb(1,primForeCons_aux(+primRelName,+primFilName,+foreRelName,#foreFilName)).
+modeb(1,primForeCons_aux(#primRelName,#primFilName,#foreRelName,#foreFilName)).
 modeb(1,sgot(+arg1,+sgotv)).
 modeb(1,sgot(-arg1,+sgotv)).
-modeb(1,sgot(+arg1,-#sgotv)).
-modeb(1,sgot(-arg1,-#sgotv)).
+modeb(1,sgot(+arg1,#sgotv)).
+modeb(1,sgot(-arg1,#sgotv)).
 modeb(1,sgpt(+arg1,+sgptv)).
 modeb(1,sgpt(-arg1,+sgptv)).
-modeb(1,sgpt(+arg1,-#sgptv)).
-modeb(1,sgpt(-arg1,-#sgptv)).
+modeb(1,sgpt(+arg1,#sgptv)).
+modeb(1,sgpt(-arg1,#sgptv)).
 
 
 modeh(1,bupa(-arg1,+args2)).
 
 modeh(1,alkphos(+arg1,+alkv)).
-modeh(1,alkphos(+arg1,-#alkv)).
+modeh(1,alkphos(+arg1,#alkv)).
 modeh(1,dependencies_aux(+relation_name,+column_name,+ref_relation_name,+ref_column_name,+sign)).
-modeh(1,dependencies_aux(-#relation_name,+column_name,+ref_relation_name,+ref_column_name,+sign)).
-modeh(1,dependencies_aux(+relation_name,-#column_name,+ref_relation_name,+ref_column_name,+sign)).
-modeh(1,dependencies_aux(+relation_name,+column_name,-#ref_relation_name,+ref_column_name,+sign)).
-modeh(1,dependencies_aux(+relation_name,+column_name,+ref_relation_name,-#ref_column_name,+sign)).
-modeh(1,dependencies_aux(+relation_name,+column_name,+ref_relation_name,+ref_column_name,-#sign)).
-modeh(1,dependencies_aux(-#relation_name,-#column_name,-#ref_relation_name,-#ref_column_name,-#sign)).
+modeh(1,dependencies_aux(#relation_name,+column_name,+ref_relation_name,+ref_column_name,+sign)).
+modeh(1,dependencies_aux(+relation_name,#column_name,+ref_relation_name,+ref_column_name,+sign)).
+modeh(1,dependencies_aux(+relation_name,+column_name,#ref_relation_name,+ref_column_name,+sign)).
+modeh(1,dependencies_aux(+relation_name,+column_name,+ref_relation_name,#ref_column_name,+sign)).
+modeh(1,dependencies_aux(+relation_name,+column_name,+ref_relation_name,+ref_column_name,#sign)).
+modeh(1,dependencies_aux(#relation_name,#column_name,#ref_relation_name,#ref_column_name,#sign)).
 modeh(1,drinks(+arg1,+drinkv)).
 modeh(1,drinks(-arg1,+drinkv)).
-modeh(1,drinks(+arg1,-#drinkv)).
-modeh(1,drinks(-arg1,-#drinkv)).
+modeh(1,drinks(+arg1,#drinkv)).
+modeh(1,drinks(-arg1,#drinkv)).
 modeh(1,gammagt(+arg1,+gammav)).
 modeh(1,gammagt(-arg1,+gammav)).
-modeh(1,gammagt(+arg1,-#gammav)).
-modeh(1,gammagt(-arg1,-#gammav)).
+modeh(1,gammagt(+arg1,#gammav)).
+modeh(1,gammagt(-arg1,#gammav)).
 modeh(1,mcv(+arg1,+mcvv)).
 modeh(1,mcv(-arg1,+mcvv)).
-modeh(1,mcv(+arg1,-#mcvv)).
-modeh(1,mcv(-arg1,-#mcvv)).
+modeh(1,mcv(+arg1,#mcvv)).
+modeh(1,mcv(-arg1,#mcvv)).
 modeh(1,primForeCons_aux(+primRelName,+primFilName,+foreRelName,+foreFilName)).
-modeh(1,primForeCons_aux(-#primRelName,+primFilName,+foreRelName,+foreFilName)).
-modeh(1,primForeCons_aux(+primRelName,-#primFilName,+foreRelName,+foreFilName)).
-modeh(1,primForeCons_aux(+primRelName,+primFilName,-#foreRelName,+foreFilName)).
-modeh(1,primForeCons_aux(+primRelName,+primFilName,+foreRelName,-#foreFilName)).
-modeh(1,primForeCons_aux(-#primRelName,-#primFilName,-#foreRelName,-#foreFilName)).
+modeh(1,primForeCons_aux(#primRelName,+primFilName,+foreRelName,+foreFilName)).
+modeh(1,primForeCons_aux(+primRelName,#primFilName,+foreRelName,+foreFilName)).
+modeh(1,primForeCons_aux(+primRelName,+primFilName,#foreRelName,+foreFilName)).
+modeh(1,primForeCons_aux(+primRelName,+primFilName,+foreRelName,#foreFilName)).
+modeh(1,primForeCons_aux(#primRelName,#primFilName,#foreRelName,#foreFilName)).
 modeh(1,sgot(+arg1,+sgotv)).
 modeh(1,sgot(-arg1,+sgotv)).
-modeh(1,sgot(+arg1,-#sgotv)).
-modeh(1,sgot(-arg1,-#sgotv)).
+modeh(1,sgot(+arg1,#sgotv)).
+modeh(1,sgot(-arg1,#sgotv)).
 modeh(1,sgpt(+arg1,+sgptv)).
 modeh(1,sgpt(-arg1,+sgptv)).
-modeh(1,sgpt(+arg1,-#sgptv)).
-modeh(1,sgpt(-arg1,-#sgptv)).
+modeh(1,sgpt(+arg1,#sgptv)).
+modeh(1,sgpt(-arg1,#sgptv)).
 
 %%%%%%%%%%%%%%%%
 % Bupa keys
