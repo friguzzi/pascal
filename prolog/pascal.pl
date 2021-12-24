@@ -81,57 +81,45 @@ sandbox:safe_meta(pascal:setting_pascal(_,_), []).
 /* allowed values: auto, keys(pred) where pred is the predicate indicating the class (e.g. bongard) */
 default_setting_pascal(examples,auto).
 
-default_setting_pascal(der_depth,20).
 default_setting_pascal(beamsize,10).
 default_setting_pascal(verbosity,3).
-default_setting_pascal(significance_level,0).
-default_setting_pascal(pruning,true).
-/*allowed values 0.995 / 0.99 / 0.975 / 0.95 / 0.90 / 0.75 / 0.0 */
-default_setting_pascal(min_coverage,3).
-default_setting_pascal(min_accuracy,0.75).
 default_setting_pascal(max_nodes,10). %max num iterazioni findBestIC
-default_setting_pascal(heur,acc). /* allowed values: acc, laplace */
 default_setting_pascal(optimal,no). /* allowed values: yes, no */
 default_setting_pascal(max_length,4).
-
-/* PASCAL*/
-default_setting_pascal(max_refinements, none).
-default_setting_pascal(num_samples,50).
-default_setting_pascal(rand_seed, 1234).
-default_setting_pascal(max_initial_weight,0.1).
-default_setting_pascal(lookahead, no).
-% default_setting_pascal for approximate parameter learning
-default_setting_pascal(approx_pl,none).
-default_setting_pascal(max_rules,10).
 /* default_setting_pascal(max_lengths[Body,Disjucts,LitIn+,LitIn-]). */
 default_setting_pascal(max_lengths,[1,1,1,0]).
-default_setting_pascal(epsilon_em,0.0001).
-default_setting_pascal(epsilon_em_fraction,0.00001).
+
+default_setting_pascal(max_refinements, none).
+default_setting_pascal(num_samples,50). % undocumented
+default_setting_pascal(max_initial_weight,0.1).
+% allowed values: gradient_descent, lbfgs
+default_setting_pascal(learning_algorithm,gradient_descent).
+default_setting_pascal(random_restarts_number,1).
+% allowed values: fixed(value), decay(eta_0,eta_tau,tau)
+default_setting_pascal(learning_rate,fixed(0.01)).
+default_setting_pascal(gd_iter,1000).
+default_setting_pascal(epsilon,0.0001).
+default_setting_pascal(epsilon_fraction,0.00001).
+default_setting_pascal(regularizing_constant,5).
+default_setting_pascal(regularization,2).
+% allowed values: 1, 2
+
+
+
+default_setting_pascal(lookahead, no). % undocumented
+
+default_setting_pascal(max_rules,10).
+
 default_setting_pascal(logzero,log(0.01)).
 default_setting_pascal(zero,0.0001).
 default_setting_pascal(minus_infinity,-1.0e20).
-default_setting_pascal(iter,-1).
-default_setting_pascal(random_restarts_number,1).
-default_setting_pascal(d,1).
-default_setting_pascal(depth_bound,false).  %if true, it limits the derivation of the example to the value of 'depth'
-default_setting_pascal(depth,2).
 % selezionare se si vuole bottom clause o no
 default_setting_pascal(bottom_clause,no).
-default_setting_pascal(ex_bottom,3). %n. bottom c. da generare
-default_setting_pascal(eps,0.0001).
-default_setting_pascal(eps_f,0.00001).
+
 
 default_setting_pascal(fixed_parameters,no).
 
 default_setting_pascal(default_parameters,0).
-% allowed values: gradient_descent, lbfgs
-default_setting_pascal(learning_algorithm,lbfgs).
-% allowed values: fixed(value), decay(eta_0,eta_tau,tau)
-default_setting_pascal(learning_rate,fixed(0.01)).
-default_setting_pascal(gd_iter,1000).
-default_setting_pascal(regularizing_constant,5).
-default_setting_pascal(regularization,2).
-% allowed values: 1, 2
 
 /**
  * test_pascal(:T:probabilistic_program,+TestFolds:list_of_atoms,-LL:float,-AUCROC:float,-ROC:dict,-AUCPR:float,-PR:dict) is det
@@ -378,7 +366,6 @@ objective_func(M:Folds,P0,XN,YN,XMin,XMax,YMin,YMax,Steps):-
  * DB contains the list of interpretations ids and M the module where
  * the data is stored.
  */
-
 obj_fun(DB,M,R0,XN,YN,XMin,XMax,YMin,YMax,Steps,X,Y,Z):-  %Parameter Learning
   compute_stats(DB,M,R0,NR,MIP,MI),
   draw(NR,MIP,MI,M,XN,YN,XMin,XMax,YMin,YMax,Steps,X,Y,Z).
@@ -925,7 +912,7 @@ covering_loop(Eplus,Eminus,EminusRem,NP,NN,NR,NR2,Rulesin,Rulesout,S):-
 		% Emc = lista ex neg ruled out da BestClauseOut, lunga NC
 		% Epnc =lista ex pos not covered da BestClauseOut
         (BestClauseOut=null->
-            format("No more significant clauses.~n~n",[]),
+            format("No more clauses.~n~n",[]),
             print_ex_rem(Eplus,Eminus),
             Rulesout=Rulesin,
             NR2=NR,
@@ -986,65 +973,15 @@ covering_loop1(Eplus,Eminus,M,NP,NN,MR,Prog0,Prog,LL0,LL):-
     ;
       covering_loop1(Eplus,Eminus,M,NP,NN,MR1,Prog1,Prog,LL1,LL)
     ).
-
-     %Rule = rule(r, Clause, _Stat),
-         %Rule = rule(r, Clause, _Stat),
-		%		findBestICS([BestClause],Eplus,Eminus,NP,NN,0,[],Rulesout0),
-		%length(Rulesout0,LRulesout0),
-		%		format("~nL Rulesout0: ~d~n",[LRulesout0]),
-		%	convert_rules_covering_loop1(Rulesout0,Rulesout).
-		% NC= Num ex neg ruled out
-		% PC = Num Pos Covered
-		% Emc = lista ex neg ruled out da BestClauseOut, lunga NC
-		% Epnc =lista ex pos not covered da BestClauseOut
-		%((BestClauseOut=([], []:-[], []))->
-        %    format("No more significant clauses.~n~n",[]),
-        %    print_ex_rem(Eplus,Eminus),
-        %    Rulesout=Rulesin,
-        %    NR2=NR,
-        %    EminusRem=Eminus
-        %;
-		%		%set_output(S),
-        %    write_clause(BestClauseOut),   
-        %    NR1 is NR+1,	    
-            %MODIFICATO
-	    	%numbervars(Name,0,_,[functor_name(xarg)]),
-        %    numbervars(Name,0,_),
-        %    format("/* Rule n. ~d ",[NR1]), 
-        %    write_term(Name,[numbervars(true)]),
-        %    format(" ~p ~p ~p ~n",[acc(Heur), negcov(NC), poscov(PC)]),
-        %    format("Neg traces ruled out:#~p */~n~n~n",[Emc]),
-            %format("/* Rule n. ~d ~p ~p ~p ~p */~n",[NR1,Name,acc(Heur),negcov(NC),poscov(PC)]),
-            %test_body(BestClauseOut,Eplus,NBODY,S),
-            %total_number(NBODY,0,NB),
-            %format("/* Positivi ~p */~n~n",[NB]),
-        %    set_output(user_output),
-        %    print_new_clause(Name,BestClauseOut,Heur,NC,PC,Emc,Epnc), %******CHECK
-			%flush_output(S),
-        %    remove_cov_examples(Emc,Eminus,EminusOut), %tolgo da Eminus la lista Emc di ex negativi esclusi dalla clausola; gli ex neg rimanenti vanno in EminusOut
-        %    length(EminusOut,NN1), %NN1=num ex neg rimasti (ho tolto quelli esclusi dalla clausola BestClauseOut)
-			%format("********************** num ex neg rimasti ~d",[NN1]),
-        %    Rulesout=[rule(Name,BestClauseOut,(heur(Heur),negcov(NC),poscov(PC),emc(Emc),epnc(Epnc)))|Rules1],  %formato regola
-        %    covering_loop1(Eplus,EminusOut,EminusRem,NP,NN1,NR1,NR2,Rulesin,Rules1)
-        %).
-
 convert_rules_covering_loop1([],[]).
 
 convert_rules_covering_loop1([(Name,BestClauseOut,Heur,(NC,PC,Emc,Epnc))|T],[rule(Name,BestClauseOut,(heur(Heur),negcov(NC),poscov(PC),emc(Emc),epnc(Epnc)))|T1]):-
 	convert_rules_covering_loop1(T,T1).
 
-%findBestICS([],_Ep,_Em,_NPT,_NNT,_N,BestClause,BestClause):-!.
-
 
 findBestICS(_Ag,M,_Ep,_Em,_NPT,_NNT,_,Prog,Prog,LL,LL,N):-
 		M:local_setting(max_nodes,NMax), %max num iterazioni 
         N>NMax,!.
-
-/*findBestICS(_Ag,_Ep,_Em,_NPT,_NNT,_N,(Name,BestClause,H,(NN,NP,Emc,Epnc)),(Name,BestClause,H,(NN,NP,Emc,Epnc))):-
-         H==1,  %regole con euristica 1 e copertura > del setting non vengono raffinate
-         setting(min_coverage,MC),
-	     NN>=MC,!.
-*/
 
 findBestICS(Agenda,M,Ep,Em,NPT,NNT,Prog00,Prog0,Prog,LL0,LL,N):-
 		%	generate_new_agenda1(Ep,Em,NPT,NNT,Agenda,[],NewAgenda,BCIn,BC1),%raffina - Agenda è il beam corrente, NewAgenda quello aggiornato - BCIn = lista corrente di AllRefinements > minacc e > mincov
@@ -1666,8 +1603,6 @@ evaluate_all_refinements(Ep,Em,M,NPT,NNT,[[HRef]|TRef],/*Name,*/NAgIn,NAgOut,Pro
   learn_param([HRef|Prog00],M,Ep,Em,Prog1,NewL1),
   write3(M,'Score: '),write3(M,NewL1),write3(M,'\n'),
   write_rules3(M,Prog1),
-       % Det1 = (NN,NP,Emc,Epnc),
-	   %	append([(Name,HRef1,Heuristic,Det1)],AllRefinementsIn,AllRefinementsIn1)
 	    M:local_setting(beamsize,BS),
         print_ref(Name,M,HRef,NewL1,_,_,_,_),
         insert_in_order((Name,HRef1,NewL1,_),BS,NAgIn,NAg1),
@@ -1681,37 +1616,6 @@ evaluate_all_refinements(Ep,Em,M,NPT,NNT,[[HRef]|TRef],/*Name,*/NAgIn,NAgOut,Pro
     ),
     evaluate_all_refinements(Ep,Em,M,NPT,NNT,TRef,NAg1,NAgOut,Prog00,Prog2,Prog,LL1,LL).
 
-	/* VERSIONE PRECEDENTE FATTA DA RICCARDO CON 2 LISTE: AllRefinementsOut (tiene tutti i raffinamenti con euristica>MA e NN>MC, quindi alla fine può contenere decine di migliaia di clausole) e NAgOut (beam ordinato in ordine descrescente di euristica con massima dimensione beamsize settata all'inizio; però le clausole sono inserite nel beam senza verificare i setting MA e MC)
-	 ((%Heuristic > HeurIn, % non verifico che il raffinamento sia migliore del precedente HeurIn ma solo che abbia accuratezza >del setting MA
-    Heuristic>MA
-%    ,statistically_significant(NP,NN,NNTC,NPT,NNT)
-    ,NN>=MC)->
-        Det1 = (NN,NP,Emc,Epnc),
-		append([(Name,HRef1,Heuristic,Det1)],AllRefinementsIn,AllRefinementsIn1)
-    ;
-        %Name1=NameIn,
-        %BC1=BCIn,
-        %Heur1 = HeurIn,
-        %Det1 = DetIn
-		AllRefinementsIn1 = AllRefinementsIn
-    ),
-    (prune(NN,Heuristic,HeurIn)->  %qui non entra mai
-		NAg1=NAgIn
-    ;
-        setting(beamsize,BS),
-        print_ref(Name,HRef,Heuristic,NN,NP,Emc,Epnc),
-        insert_in_order((Name,HRef1,Heuristic,NN),BS,NAgIn,NAg1)
-		%format("~nInserted in beam~n")
-    ),!,
-    evaluate_all_refinements(Ep,Em,NPT,NNT,TRef,NAg1,NAgOut,AllRefinementsIn1,AllRefinementsOut).
-*/
-
-%test_body(((H,_HL):-(B,_BL)),Ep,NBODY,S):-
-%	generate_query((([],[]):-(B,_BL)),Query,VI),
-%	set_output(S),
-%	total_number(Ep,0,Nep),
-%	format("/* Query ~d ~p ~p */~n~n",[Nep,Query,VI]),
-%	test_clause_pos(Ep,Query,VI,0,NP,[],NBODY).
 
 store_prog(M,Ref,Score):-
   assert(M:ref_th(Ref,Score)).
@@ -1786,63 +1690,6 @@ add_int_atom([H|T],[H1|T1],VI):-
   H1=..[F,VI|Args],
   add_int_atom(T,T1,VI).
 
-
-
-/*    
-prune(_NPT,_NNT,NN,_H,HeurBestClause):-
-    M:local_setting(pruning,true),
-    BestHeur is (NN+1)/(NN+2),
-    BestHeur<HeurBestClause.
-    
-prune(NPT,NNT,NN,_H,_HeurBestClause):-
-    M:local_setting(pruning,true),
-    BestLR is -2*NN*log10(NNT/(NNT+NPT)),
-    M:local_setting(significance_level,X),
-    sig_threshold(X,T),
-    BestLR<T.
-*/
-statistically_significant(NP,NN,_NNTC,NPT,NNT):-
-    PMinusCMinus is NN/(NN+NPT-NP),
-    (PMinusCMinus=:=0->
-        LikelihoodRatio is 2*(NN+NPT-NP)*log10(1/(NPT/(NPT+NNT)))
-    ;
-        (PMinusCMinus=:=1->
-            LikelihoodRatio is 2*(NN+NPT-NP)*log10(1/(NNT/(NPT+NNT)))
-        ;
-            LikelihoodRatio is 2*(NN+NPT-NP)*
-                (PMinusCMinus*log10(PMinusCMinus/(NNT/(NPT+NNT))) +
-                (1-PMinusCMinus)*log10((1-PMinusCMinus)/(NPT/(NPT+NNT))))
-        )
-    ),
-    setting(significance_level,X),
-    sig_threshold(X,T),
-    LikelihoodRatio>T.
-
-statistically_significant_pos(NP,NN,NNTC,NPT,NNT):-
-    PPlusC is NP/(NP+NNTC-NN),
-    (PPlusC=:=0->
-        LikelihoodRatio is 2*(NP+NNTC-NN)*log10(1/(NNT/(NPT+NNT)))/log10(2)
-    ;
-        (PPlusC=:=1->
-            LikelihoodRatio is 2*(NP+NNTC-NN)*log10(1/(NPT/(NPT+NNT)))/log10(2)
-        ;
-            LikelihoodRatio is 2*(NP+NNTC-NN)*
-                (PPlusC*log10(PPlusC/(NPT/(NPT+NNT)))/log10(2) +
-                (1-PPlusC)*log10((1-PPlusC)/(NNT/(NPT+NNT)))/log10(2))
-        )
-    ),
-    setting(significance_level,X),
-    sig_threshold(X,T),
-    LikelihoodRatio>T.
-
-sig_threshold(0.995,7.88).    
-sig_threshold(0.99,6.64).
-sig_threshold(0.975,5.02).
-sig_threshold(0.95,3.84).
-sig_threshold(0.90,2.71).
-sig_threshold(0.75,1.32).
-sig_threshold(0,0).
-
 list2andHead([],false):-!.
 
 list2andHead(HeadList,Head):-
@@ -1853,76 +1700,12 @@ list2andBody([],true):-!.
 list2andBody(BodyList,Body):-
     list2and(BodyList,Body).
     
-/*
-initialize_agenda(Pos,Neg,NP,NN,L,(NameOut,BCOut,HeurOut,DetOut)):-
-  findall( (Name,[],H,B,[]),template(dynamic,fixed,Name,H,B),L_dynamic_fixed1),
-  evaluate_fixed(Pos,Neg,NP,NN,L_dynamic_fixed1,[],L_dynamic_fixed,(null,null,0,(0,_,_,_)),(NameOut1,BCOut1,HeurOut1,DetOut1)),
-  findall( (Name,H,[],B,[]),template(fixed,fixed,Name,H,B),L_fixed_fixed1),
-  evaluate_fixed(Pos,Neg,NP,NN,L_fixed_fixed1,L_dynamic_fixed,L_fixed_fixed,(NameOut1,BCOut1,HeurOut1,DetOut1),(NameOut2,BCOut2,HeurOut2,DetOut2)),
-  findall( (Name,H,[],[],B),template(fixed,dynamic,Name,H,B),L_fixed_dynamic1),
-  evaluate_fixed(Pos,Neg,NP,NN,L_fixed_dynamic1,L_fixed_fixed,L_fixed_dynamic,(NameOut2,BCOut2,HeurOut2,DetOut2),(NameOut,BCOut,HeurOut,DetOut)),
-  findall( (Name,(([],H):-([],B)),0,NN ),template(dynamic,dynamic,Name,H,B),L_dynamic_dynamic),
-  append(L_fixed_dynamic,L_dynamic_dynamic,L).
 
-evaluate_fixed(_Pos,_Neg,_NPT,_NNT,[],Ag,Ag,BC,BC).
- 
-evaluate_fixed(Ep,Em,NPT,NNT,[(Name,H,HL,B,BL)|TRef],NAgIn,NAgOut,(NameIn,BCIn,HeurIn,DetIn),
-        (NameOut,BCOut,HeurOut,DetOut)):-
-    extract_disj(H,H1),
-    generate_query(((H1,HL):-(B,BL)),Query,VI),
-    test_clause_pos(Ep,Query,VI,0,NP,[],Epc),
-    test_clause_neg(Em,Query,VI,0,NN,[],Emc),
-    deleteall(Ep,Epc,Epnc),
-%    length(Em,NNTC),
-    setting(min_coverage,MC),
-    setting(min_accuracy,MA),
-    (setting(heur,laplace)->
-        Heuristic is (NN+1)/(NPT-NP+NN+2)
-    ;
-      Den is (NPT-NP+NN),
-      (Den=0->
-        Heuristic is 0     
-      ;         
-        Heuristic is (NN)/Den      
-      )
-    ),
-    DetIn=(NNIn,_,_,_),
-    (((Heuristic > HeurIn;Heuristic=:=HeurIn,NN>NNIn),Heuristic>MA
-%    ,statistically_significant(NP,NN,NNTC,NPT,NNT)
-    ,NN>=MC)->
-        Name1=Name,
-        BC1 = ((H1,HL):-(B,BL)),
-        Heur1 = Heuristic,
-        Det1 = (NN,NP,Emc,Epnc)
-    ;
-        Name1=NameIn,
-        BC1=BCIn,
-        Heur1 = HeurIn,
-        Det1 = DetIn
-    ),
-    print_ref(Name,((H1,HL):-(B,BL)),Heuristic,NN,NP,Emc,Epnc),
-    (prune(NPT,NNT,NN,Heuristic,HeurIn)->
-        NAg1=NAgIn
-    ;
-        insert_in_order((Name,((H1,HL):-(B,BL)),Heuristic,NN),10000000,NAgIn,NAg1)
-    ),!,
-    evaluate_fixed(Ep,Em,NPT,NNT,TRef,NAg1,NAgOut,(Name1,BC1,Heur1,Det1),
-        (NameOut,BCOut,HeurOut,DetOut)).
-*/
 
 extract_disj([],[]).
 
 extract_disj([(S,D)|T],[(S,D,[])|T1]):-
 	extract_disj(T,T1).  
-/*
-initialize_clause(NAME,[],H,B,[]):-
-	template(fixedbody,NAME,H,B).
-	
-
-initialize_clause(NAME,[],H,[],B):-
-	template(dynamicbody,NAME,H,B).
-*/
-	
   
   
 
@@ -2125,19 +1908,6 @@ load_models(File,HB,ModulesList):-
     close(Stream).
 */
 
-title(File,Stream):-
-        max_spec_steps(Spec),
-        der_depth(Der),
-        beamsize(B),
-        ver(V),
-        setting(verbosity,Ver),
-        verapp(Vapp),
-        min_cov(MC),
-        format(Stream,"~N ~N/*~NACL1 ver ~a AbdProofProc. ver ~a~NFile name: ~a~N",
-                [V,Vapp,File]),
-        format(Stream,"Max spec steps=~d, Beamsize=~d,~NDerivation depth=~d, Verbosity=~d, Minimum coverage=~d~N*/~N",
-                        [Spec,B,Der,Ver,MC]).
-  
 
 list2and([],true):-!.
 
@@ -2206,31 +1976,6 @@ load_bg(FileBG):-
     true
   ).  
 
-% CODICE PER YAP
-%load_bg(FileBG):-
-%  (file_exists(FileBG)->
-%    open(FileBG,read,S), 
-%    read_all_atoms_bg(S),
-%    close(S)
-%  ;
-%    true
-%  ). 
-
-%prune(NN,_H,HeurBestClause):-
-%    setting(pruning,true),
-%    BestHeur is (NN+1)/(NN+2),
-%    BestHeur<HeurBestClause.
-    
-%prune(NN,_H,_HeurBestClause):-
-%    setting(pruning,true),
-%    nnt(NNT),
-%    npt(NPT),
-%    BestLR is -2*NN*log(10,NNT/(NNT+NPT)),
-%    setting(significance_level,X),
-%    sig_threshold(X,T),
-%    BestLR<T.
-
- 
 
 process((H:-B),(H1:-B1)):-!,
   add_int_atom([H],[H1],VI),
@@ -2352,8 +2097,8 @@ gradient_descent(Iter,MaxIter,M,W,MIP,MI,NEx,NR,LL0):-
   evaluate_w(MIP,MI,W,M,LN,LL),
   Diff is LL0-LL,
   Ratio is Diff/abs(LL0),
-  M:local_setting(epsilon_em,EM),
-  M:local_setting(epsilon_em_fraction,EMF),
+  M:local_setting(epsilon,EM),
+  M:local_setting(epsilon_fraction,EMF),
   ((Diff<EM;Ratio<EMF)->
     write3(M,end(Diff,Ratio,LL,LL0)),nl3(M),
     true
@@ -2485,16 +2230,8 @@ test_clause_prob([],_Mo,_M,MIP,MIP).
 test_clause_prob([(Q,VI)|Rest],Mo,M,[MIPH0|MIPT0],[MIPH|MIPT]):-
   copy_term(r(Q,VI),r(Q1,VI1)),
   VI1=M,
-  %  write(before),nl,
-  % setting(approx_pl,N),
-  %(N=none ->
-   	findall(Q1,Mo:Q1,L),
-	%;
-	%	findnsols(N,Q1,Q1,L)
-	%),
-  %write(after),nl,
+	findall(Q1,Mo:Q1,L),
   length(L,MIP),
-%  succeeds_n_times(Q1,MIP),
   MIPH is MIPH0+MIP,
   test_clause_prob(Rest,Mo,M,MIPT0,MIPT).                
 
@@ -2505,30 +2242,6 @@ test_theory_neg_prob([Module|Rest],M,Th,N,[MI|LMI]):-
   test_clause_prob(Th,M,Module,MI0,MI),
   test_theory_neg_prob(Rest,M,Th,N,LMI).
 
-test_clause_neg_prob([],_Mo,_M,B,B).
-
-test_clause_neg_prob([(Q,VI,BDDV)|Rest],Mo,M,B0,B):-
-  copy_term(r(Q,VI,BDDV),r(Q1,VI1,BDDV1)),
-  VI1=M,
-  findall(BDDV1,Mo:Q1,L),
-  or_list(L,BDD0),
-  or(BDD0,B0,B1),
-   test_clause_neg_prob(Rest,Mo,M,B1,B).                
-
-or_list([],Zero):-
-  zero(Zero).
-
-or_list([H],H):-!.
-
-or_list([H|T],B):-
-  or_list1(T,H,B).
-
-
-or_list1([],B,B).
-
-or_list1([H|T],B0,B1):-
-  or(B0,H,B2),
-  or_list1(T,B2,B1).
 
 init_par(0,_):-!.
 
@@ -2562,13 +2275,12 @@ compute_likelihood([],L,_M,L).
 compute_likelihood([HP|TP],L0,M,L):-
   %write(hp),write(HP),nl,
   A is 1.0-exp(-HP),
-  M:local_setting(zero,Zero),
+  M:local_setting(logzero,Logzero),
   (A=<0.0->
-    A1 is Zero
+    L1 is L0-Logzero
   ;
-    A1=A
+    L1 is L0-log(A)
   ),
-  L1 is L0-log(A1),
   compute_likelihood(TP,L1,M,L).
 
 compute_likelihood_neg([],[]).
@@ -2685,7 +2397,6 @@ write_head([(Sign,[A|T],_DL)]):-!,
   ;
    	true
   ),
-    %  write(A),
 	write_term(A,[numbervars(true)]),
   (T=[]->
     ((Sign='-';Sign='-=')->
@@ -2694,12 +2405,13 @@ write_head([(Sign,[A|T],_DL)]):-!,
       true
     )
   ;
+    write('\n\t/\\'),
+    write_list(T),
     ((Sign='-';Sign='-=')->
-      write(')\n\t/\\')
+      write(')')
     ;
-      write('\n\t/\\')
-    ),
-    write_list(T)
+      true
+    )
   ),
   write('.'),
   nl.

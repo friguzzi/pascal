@@ -21,13 +21,12 @@ greaterAct(_,A,B):-
 :-set_pascal(fixed_parameters,no).
 %:-set_pascal(fixed_parameters,[_3092,_3098,_3104,_3110,_3116,_3122,_3128,_3134,_3140,_3146]).
 %:-set_pascal(fixed_parameters,[_3092,_3098,_3104,_3110,_3116,_3122]).
-:-set_pascal(epsilon_em,0.0001).
-:-set_pascal(epsilon_em_fraction,0.0001).
+:-set_pascal(epsilon,0.0001).
+:-set_pascal(epsilon_fraction,0.0001).
 :-set_pascal(max_length,8).
 :-set_pascal(max_lengths,[1,1,1,1]).
 :-set_pascal(max_nodes,3). 
 :-set_pascal(beamsize,2).
-:-set_pascal(min_accuracy,0.5).
 :-set_pascal(max_rules,8).
 
 :- begin_in.

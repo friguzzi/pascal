@@ -34,13 +34,12 @@ https://dtai.cs.kuleuven.be/static/ACE/doc/
 :-set_pascal(bottom_clause,no).
 
 :-set_pascal(gd_iter,1000).
-:-set_pascal(epsilon_em,0.0001).
-:-set_pascal(epsilon_em_fraction,0.0001).
+:-set_pascal(epsilon,0.0001).
+:-set_pascal(epsilon_fraction,0.0001).
 :-set_pascal(max_length,8).
 :-set_pascal(max_lengths,[2,1,1,1]).
 :-set_pascal(max_nodes,3). 
 :-set_pascal(beamsize,2).
-:-set_pascal(min_accuracy,0.5).
 :-set_pascal(max_rules,5).
 :-set_pascal(verbosity,0).
 
