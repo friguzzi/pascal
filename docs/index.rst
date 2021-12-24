@@ -14,7 +14,7 @@ Pascal Manual
 Introduction
 ============
 Pasccal is an algorithm for learning probabilistic integrity constraints. It was 
-proposed in :cite:`BelAlbRig20-TPLP-IJ`. 
+proposed in :cite:`RigBelZesAlbLam21-ML-IJ`. 
 It contains modules for both structure and parameter learning.
 
 Pascal is also available in the cplint on SWISH web application at `<http://cplint.eu>`_.
