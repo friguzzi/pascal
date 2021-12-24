@@ -22,7 +22,7 @@ Pascal is also available in the cplint on SWISH web application at `<http://cpli
 Installation
 ============
 Pascal is distributed as a `pack <http://www.swi-prolog.org/pack/list?p=pack>`_ of `SWI-Prolog <http://www.swi-prolog.org/>`_. 
-To install it, use ::
+To install it, use
 
 .. code:: prolog
 
@@ -71,10 +71,11 @@ Testing the installation
     ?- [library(test_pascal)].
     ?- test_pascal.
 
-Datasets
---------
-
-Other machine learning datasets are available in pack `cplint_datasets <https://github.com/friguzzi/cplint_datasets>`_.
+.. 
+  Datasets
+  
+  
+  Other machine learning datasets are available in pack `cplint_datasets <https://github.com/friguzzi/cplint_datasets>`_.
 
 Support
 -------
@@ -447,37 +448,26 @@ Parameters are set with commands of the form ::
 
 The available parameters are:
 
-- :code:`specialization`: (values: :code:`{bottom,mode}`, default value: :code:`bottom`, valid for SLIPCOVER) specialization mode.
-- :code:`depth_bound`: (values: :code:`{true,false}`, default value: :code:`true`) if :code:`true`, the depth of the derivation of the goal is limited to the value of the :code:`depth` parameter.
-- :code:`depth` (values: integer, default value: 2): depth of derivations if :code:`depth_bound` is set to :code:`true`
-- :code:`single_var` (values: :code:`{true,false}`, default value: :code:`false`): if set to :code:`true`, there is a random variable for each clause, instead of a different random variable for each grounding of each clause
-- :code:`epsilon_em` (values: real, default value: 0.1): if the difference in the log likelihood in two successive parameter EM iteration is smaller than :code:`epsilon_em`, then EM stops
-- :code:`epsilon_em_fraction` (values: real, default value: 0.01): if the difference in the log likelihood in two successive parameter EM iteration is smaller than :code:`epsilon_em_fraction*(-current log likelihood)`, then EM stops
-- :code:`iter` (values: integer, defualt value: 1): maximum number of iteration of EM parameter learning. If set to -1, no maximum number of iterations is imposed
-- :code:`iterREF` (values: integer, defualt value: 1, valid for SLIPCOVER and LEMUR): maximum number of iteration of EM parameter learning for refinements. If set to -1, no maximum number of iterations is imposed.
-- :code:`random_restarts_number` (values: integer, default value: 1, valid for EMBLEM, SLIPCOVER and LEMUR): number of random restarts of parameter EM learning
-- :code:`random_restarts_REFnumber` (values: integer, default value: 1, valid for SLIPCOVER and LEMUR): number of random restarts of parameter EM learning for refinements
-- :code:`seed` (values: seed(integer) or seed(random), default value :code:`seed(3032)`): seed for the Prolog random functions, see `SWI-Prolog manual <http://www.swi-prolog.org/pldoc/man?predicate=set_random/1>`__ 
-- :code:`c_seed` (values: unsigned integer, default value 21344)): seed for the C random functions
-- :code:`logzero` (values: negative real, default value :math:`\log(0.000001)`: value assigned to :math:`\log(0)`
-- :code:`max_iter` (values: integer, default value: 10, valid for SLIPCOVER): number of interations of beam search
-- :code:`max_var` (values: integer, default value: 4, valid for SLIPCOVER and LEMUR): maximum number of distinct variables in a clause
-- :code:`beamsize` (values: integer, default value: 100, valid for SLIPCOVER): size of the beam
-- :code:`megaex_bottom` (values: integer, default value: 1, valid for SLIPCOVER): number of mega-examples on which to build the bottom clauses
-- :code:`initial_clauses_per_megaex` (values: integer, default value: 1, valid for SLIPCOVER): number of bottom clauses to build for each mega-example (or model or interpretation)
-- :code:`d` (values: integer, default value: 1, valid for SLIPCOVER): number of saturation steps when building the bottom clause
-- :code:`mcts_beamsize` (values: integer, default value: 3, valid for LEMUR): size of the Monte-Carlo tree search beam
-- :code:`mcts_visits` (values: integer, default value: +1e20, valid for LEMUR): maximum number of visits
-- :code:`max_iter_structure` (values: integer, default value: 10000, valid for SLIPCOVER): maximum number of theory search iterations
-- :code:`mcts_max_depth` (values: integer, default value: 8, valid for LEMUR): maximum depth of default policy search
-- :code:`mcts_c` (values: real, default value: 0.7, valid for LEMUR): value of parameter :math:`C` in the computation of UCT
-- :code:`mcts_iter` (values: integer, default value: 20, valid for LEMUR): number of Monte-Carlo tree search iterations
-- :code:`mcts_maxrestarts` (values: integer, default value: 20, valid for LEMUR): maximum number of Monte-Carlo tree search restarts
-- :code:`neg_ex` (values: :code:`given`, :code:`cw`, default value: :code:`cw`): if set to :code:`given`, the negative examples in training and testing are taken from the test folds interpretations, i.e., those examples :code:`ex` stored as :code:`neg(ex)`; if set to :code:`cw`, the negative examples in training and testing are generated according to the closed world assumption, i.e., all atoms for target predicates that are not positive examples. The set of all atoms is obtained by collecting the set of constants for each type of the arguments of the target predicate, so the target predicates must have at least one fact for :code:`modeh/2` or :code:`modebb/2` also for parameter learning.
-- :code:`alpha` (values: floating point :math:`\geq 0`, default value: 0): parameter of the symmetric Dirichlet distribution used to initialize the parameters. If it takes value 0, a truncated Dirichlet process is used to sample parameters: the probability of being true of each Boolean random variable used to represent multivalued random variables is sampled uniformly and independently in [0,1]. If it takes a value :math:`\geq 0`, the parameters are sampled from a symmetric Dirichlet distribution, i.e. a Dirichlet distribution with vector of parameters :math:`\alpha,\ldots,\alpha`.
+- :code:`examples`: (values: :code:`{auto, keys(pred)}`, default value: :code:`auto`) if set to :code:`auto`, positive examples in the models format should contain a :code:`pos` fact and in the keys format a :code:`pos(id)` fact, where :code:`id` is the identifier of the interpretation. If set to :code:`keys(pred)`, :code:`pred` is used instead of :code:`pos` to determine positive exmples
+- :code:`beamsize` (values: integer, default value: 10): size of the beam
 - :code:`verbosity` (values: integer in [1,3], default value: 1): level of verbosity of the algorithms.
-
-
+- :code:`max_nodes` (values: integer, defualt value: 10): maximum number of iteration of beam search
+- :code:`optimal` (values: :code:`{yes, no}`, default value: :code:`no`): whether ther refinement operator is optimal or not
+- :code:`max_length` (values: integer, defualt value: 4): maximum number of body literals and head disjuncts
+- :code:`max_lengths` (values: list of integers :code:`[Body,Disjuncts,LitIn+,LitIn-]`, defualt value: :code:`[1,1,1,0]`): maximum number of, respectively, body literals, head disjuncts, literals in P disjuncts and literals in N disjuncts
+- :code:`max_initial_weight` (values: real, default value :math:`0.1)`: absolute value of the maximum of the initial weights in weight learning.  
+- :code:`learning_algorithm` (values: :code:`{gradient_descent, lbfgs}`, default value: :code:`gradient_descent`): algorithm for parameter learning
+- :code:`random_restarts_number` (values: integer, default value: 1): number of random restarts for gradient descent parameter learning
+- :code:`learning_rate` (values: :code:`{fixed(value),decay(eta_0,eta_tau,tau)}`, default value: :code:`fixed(0.01)`): value of the learning rate, either fixed to a value or set with a decay strategy
+- :code:`gd_iter` (values: integer, default value: 1000): maximum number of gradient descent iterations
+- :code:`epsilon` (values: real, default value: 0.0001): if the difference in the log likelihood in two successive parameter gradient descent iterations is smaller than :code:`epsilon`, then the algorithm stops
+- :code:`epsilon_fraction` (values: real, default value: 0.00001): if the difference in the log likelihood in two successive parameter gradient descent iterations is smaller than :code:`epsilon_fraction*(-current log likelihood)`, then the algorithm stops
+- :code:`regularization` (values: :code:`{1,2}`, default value: :code:`2`): either L1 or L2 regularization in gradient descent and lbfgs
+- :code:`regularizing_constant` (values: real, default value: 5): value of the regularizatiom constant in gradient descent and lbfgs
+- :code:`max_rules` (values: integer, default value: 10): maximum number of PIC in the final theory
+- :code:`logzero` (values: negative real, default value :math:`\log(0.01)`: value assigned to :math:`\log(0)`
+- :code:`zero` (values: positive real, default value :code:`0.0001`: value assigned to :math:`0` when computing denominators that are counts
+- :code:`minus_infinity` (values: negative real, default value :code:`-1.0e20`: value assigned to :math:`-\infty`, used as the intial value of the log likelihood in parameter learning
 
 Example Files
 =============
