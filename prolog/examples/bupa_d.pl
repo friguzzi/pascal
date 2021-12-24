@@ -1,5 +1,8 @@
 :-use_module(library(pascal)).
-
+:- if(current_predicate(use_rendering/1)).
+:- use_rendering(c3).
+:- use_rendering(lpad).
+:- endif.
 
 greaterAct(_,A,B):-
     activity(_,A),
@@ -24,6 +27,7 @@ greaterAct(_,A,B):-
 :-set_pascal(max_nodes,3). 
 :-set_pascal(beamsize,2).
 :-set_pascal(max_rules,8).
+:-set_pascal(verbosity,1).
 
 
 

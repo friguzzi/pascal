@@ -38,7 +38,7 @@ test(ipar):-
 
 :- begin_tests(bupa, []).
 
-:-ensure_loaded('examples/bupa-d').
+:-ensure_loaded('examples/bupa_d').
 :- set_pascal(verbosity,0).
 test(i_bupa):-
   induce_pascal([train],P),test_pascal(P,[test],_LL,_AUCROC,_ROC,_AUCPR,_PR).
