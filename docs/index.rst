@@ -252,11 +252,7 @@ Other forms are ::
 
 	#<type>
 
-for specifying an argument which should be replaced by a constant of type :code:`<type>` in the bottom clause but should not be used for replacing input variables of the following literals when building the bottom clause or ::
-
-	-#<type>
-
-for specifying an argument which should be replaced by a constant of type :code:`<type>` in the bottom clause and that should be used for replacing input variables of the following literals when building the bottom clause. ::
+for specifying an argument which should be replaced by a constant of type :code:`<type>` 
 
 	<constant>
 
@@ -272,13 +268,13 @@ An example of language bias for the Bongard domain is
   modeh(*,in(+obj,-obj)).
   modeh(*,in(-obj,+obj)).
   modeh(*,in(+obj,+obj)).
-  modeh(*,config(+obj,-#dir)).
+  modeh(*,config(+obj,#dir)).
   modeb(*,triangle(-obj)).
   modeb(*,square(-obj)).
   modeb(*,circle(-obj)).
   modeb(*,in(+obj,-obj)).
   modeb(*,in(-obj,+obj)).
-  modeb(*,config(+obj,-#dir)).
+  modeb(*,config(+obj,#dir)).
 
 
 Example Interpretations
@@ -329,6 +325,10 @@ which is contained in the `bongardkeys.pl <http://cplint.eu/e/bongardkeys.pl>`_.
 This is also how model :code:`2` above is stored in SWI-Prolog database. 
 The two modalities, models and keys, can be mixed in the same file. 
 Facts for :code:`int/1` are not asserted for interpretations in the key modality but can be added by the user explicitly.
+
+In order to specify if an interpretation is positive or negative, you should include in the interpretation a 
+fact. The form of the fact dependes on the parameter :code:`examples` whose values are :code:`{auto, keys(pred)}`. If set to :code:`auto`, positive examples in the models format should contain a :code:`pos` fact and in the keys format a :code:`pos(id)` fact, where :code:`id` is the identifier of the interpretation. If set to :code:`keys(pred)`, :code:`pred` or :code:`pred(pos)` (:code:`pred(id)` or :code:`pred(id,pos)` in the keys format) is used instead of :code:`pos` to determine positive exmples.
+
 
 Then you must indicate how the examples are divided in folds with facts of the form: :code:`fold(<fold_name>,<list of model identifiers>)`, as for example
 

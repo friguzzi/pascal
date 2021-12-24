@@ -15,8 +15,6 @@ greaterAct(_,A,B):-
 :-set_pascal(regularizing_constant,5).
 :-set_pascal(regularization,2).
 
-:-set_pascal(bottom_clause,no).
-
 :-set_pascal(gd_iter,1000).
 :-set_pascal(fixed_parameters,no).
 :-set_pascal(epsilon,0.0001).

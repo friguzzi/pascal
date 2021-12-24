@@ -31,8 +31,6 @@ https://dtai.cs.kuleuven.be/static/ACE/doc/
 :-set_pascal(regularizing_constant,5).
 :-set_pascal(regularization,2).
 
-:-set_pascal(bottom_clause,no).
-
 :-set_pascal(gd_iter,1000).
 :-set_pascal(epsilon,0.0001).
 :-set_pascal(epsilon_fraction,0.0001).
@@ -98,16 +96,11 @@ fold(all,F):-
 
 
 
-/*
 modeh(*,triangle(+obj)).
 modeh(*,square(+obj)).
 modeh(*,circle(+obj)).
-modeh(*,in(+obj,-obj)).
-modeh(*,in(-obj,+obj)).
-modeh(*,in(+obj,+obj)).
 modeh(*,config(+obj,-#dir)).
-*/
-modeh(1,pos).
+
 
 modeb(*,triangle(-obj)).
 modeb(*,square(-obj)).
