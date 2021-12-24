@@ -252,7 +252,7 @@ Other forms are ::
 
 	#<type>
 
-for specifying an argument which should be replaced by a constant of type :code:`<type>` 
+for specifying an argument which should be replaced by a constant of type :code:`<type>` ::
 
 	<constant>
 
