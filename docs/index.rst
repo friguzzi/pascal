@@ -344,17 +344,7 @@ As the input file is a Prolog program, you can define intensionally the folds as
 	fold(all,F):-
   	findall(I,int(I),F).
 
-:code:`fold/2` is dynamic so you can also write (`registration.pl <http://cplint.eu/e/registration.pl>`_)
-
-.. code:: prolog
-
-	:- fold(all,F),
-		sample(4,F,FTr,FTe),
-    assert(fold(rand_train,FTr)),
-    assert(fold(rand_test,FTe)).
-
-
-which however must be inserted after the input interpretations otherwise the facts for :code:`int/1` will not be available and the fold :code:`all` would be empty. 
+which however must be inserted after the input interpretations otherwise the facts for :code:`int/1` will not be available and fold :code:`all` would be empty. 
 
 Commands
 --------

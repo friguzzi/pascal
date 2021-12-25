@@ -313,14 +313,7 @@ fact. The form of the fact dependes on the parameter <code class="code docutils 
 <span class="nf">findall</span><span class="p">(</span><span class="nv">I</span><span class="p">,</span><span class="nf">int</span><span class="p">(</span><span class="nv">I</span><span class="p">),</span><span class="nv">F</span><span class="p">).</span>
 </pre></div>
 </div>
-<p><code class="code docutils literal notranslate"><span class="pre">fold/2</span></code> is dynamic so you can also write (<a class="reference external" href="http://cplint.eu/e/registration.pl">registration.pl</a>)</p>
-<div class="highlight-prolog notranslate"><div class="highlight"><pre><span></span>    <span class="p">:-</span> <span class="nf">fold</span><span class="p">(</span><span class="s s-Atom">all</span><span class="p">,</span><span class="nv">F</span><span class="p">),</span>
-            <span class="nf">sample</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="nv">F</span><span class="p">,</span><span class="nv">FTr</span><span class="p">,</span><span class="nv">FTe</span><span class="p">),</span>
-<span class="nf">assert</span><span class="p">(</span><span class="nf">fold</span><span class="p">(</span><span class="s s-Atom">rand_train</span><span class="p">,</span><span class="nv">FTr</span><span class="p">)),</span>
-<span class="nf">assert</span><span class="p">(</span><span class="nf">fold</span><span class="p">(</span><span class="s s-Atom">rand_test</span><span class="p">,</span><span class="nv">FTe</span><span class="p">)).</span>
-</pre></div>
-</div>
-<p>which however must be inserted after the input interpretations otherwise the facts for <code class="code docutils literal notranslate"><span class="pre">int/1</span></code> will not be available and the fold <code class="code docutils literal notranslate"><span class="pre">all</span></code> would be empty.</p>
+<p>which however must be inserted after the input interpretations otherwise the facts for <code class="code docutils literal notranslate"><span class="pre">int/1</span></code> will not be available and fold <code class="code docutils literal notranslate"><span class="pre">all</span></code> would be empty.</p>
 </section>
 </section>
 <section id="commands">
