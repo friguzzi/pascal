@@ -2,7 +2,7 @@ PASCAL
 ======
 
 
-Pasccal (probabilistic inductive constraint logic) is an algorithm for learning probabilistic integrity constraints. It was 
+Pascal (probabilistic inductive constraint logic) is an algorithm for learning probabilistic integrity constraints. It was 
 proposed in 
 
 Fabrizio Riguzzi, Elena Bellodi, Riccardo Zese, Marco Alberti, and Evelina Lamma. Probabilistic inductive constraint logic. Machine Learning, 110:723–754, 2021. 
@@ -24,19 +24,19 @@ It can be installed with `pack_install/1`
     $ swipl
     ?- pack_install(pascal).
 
-Requirements
--------------
-It requires the pack `lbfgs` [https://github.com/friguzzi/lbfgs](https://github.com/friguzzi/lbfgs)
-
-It is installed automatically when installing pack `pascal` or can installed manually as
-
-    $ swipl
-    ?- pack_install(lbfgs).
-
 You can upgrade the pack with
 
     $ swipl
     ?- pack_upgrade(pascal).
+
+Requirements
+-------------
+It requires the pack `lbfgs` [https://github.com/friguzzi/lbfgs](https://github.com/friguzzi/lbfgs)
+
+It is installed automatically when installing pack `pascal` or can be installed manually as
+
+    $ swipl
+    ?- pack_install(lbfgs).
 
 
 Example of use
