@@ -19,6 +19,12 @@ It contains modules for both structure and parameter learning.
 
 Pascal is also available in the cplint on SWISH web application at `<http://cplint.eu>`_.
 
+
+Predicate Reference
+===================
+
+ * `pascal <https://friguzzi.github.io/liftcover/pldoc/pascal.html>`_
+
 Installation
 ============
 Pascal is distributed as a `pack <http://www.swi-prolog.org/pack/list?p=pack>`_ of `SWI-Prolog <http://www.swi-prolog.org/>`_. 

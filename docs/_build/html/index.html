@@ -4,7 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>Pascal Manual &#8212; pascal 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -43,9 +43,17 @@
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>Pasccal is an algorithm for learning probabilistic integrity constraints. It was
-proposed in <a class="reference internal" href="#rigbelzesalblam21-ml-ij" id="id1">[RBZ+21]</a>.
+proposed in <span id="id1">[<a class="reference internal" href="#id5" title="Fabrizio Riguzzi, Elena Bellodi, Riccardo Zese, Marco Alberti, and Evelina Lamma. Probabilistic inductive constraint logic. Machine Learning, 110:723-754, 2021. doi:10.1007/s10994-020-05911-6.">RBZ+21</a>]</span>.
 It contains modules for both structure and parameter learning.</p>
 <p>Pascal is also available in the cplint on SWISH web application at <a class="reference external" href="http://cplint.eu">http://cplint.eu</a>.</p>
+</section>
+<section id="predicate-reference">
+<h2>Predicate Reference<a class="headerlink" href="#predicate-reference" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://friguzzi.github.io/liftcover/pldoc/pascal.html">pascal</a></p></li>
+</ul>
+</div></blockquote>
 </section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
@@ -115,7 +123,7 @@ scope the PIC. The variables in the head that do not occur in the body
 are quantified existentially if they occur in a P disjunct and
 universally if they occur in an N disjunct, with scope the disjunct
 they occur in.</p>
-<p>An example of a PIC for the Bongard problems of <a class="reference internal" href="#raelae95-alt95" id="id2">[DRVL95]</a></p>
+<p>An example of a PIC for the Bongard problems of <span id="id2">[<a class="reference internal" href="#id6" title="L. De Raedt and W. Van Laer. Inductive constraint logic. In Proceedings of the 6th Conference on Algorithmic Learning Theory (ALT 1995), volume 997 of LNAI, 80-94. Fukuoka, Japan, 1995. Springer.">DRVL95</a>]</span></p>
 <div class="math notranslate nohighlight" id="example-of-a-pic">
 \[0.5\ ::\ triangle(T),square(S),in(T,S)\rightarrow \exists(circle(C),in(C,S));\forall\neg(circle(C),in(C,T))\]</div>
 <p>which states
@@ -141,7 +149,7 @@ has probability 0.5.</p>
 <li><p>example interpretations</p></li>
 </ul>
 <p>The preamble must come first, the order of the other parts can be changed.</p>
-<p>For example, consider the Bongard problems of <a class="reference internal" href="#raelae95-alt95" id="id3">[DRVL95]</a>.
+<p>For example, consider the Bongard problems of <span id="id3">[<a class="reference internal" href="#id6" title="L. De Raedt and W. Van Laer. Inductive constraint logic. In Proceedings of the 6th Conference on Algorithmic Learning Theory (ALT 1995), volume 997 of LNAI, 80-94. Fukuoka, Japan, 1995. Springer.">DRVL95</a>]</span>.
 <a class="reference external" href="http://cplint.eu/example/pascal/bongardkeys.pl">bongardkeys.pl</a> represents a Bongard problem for Pascal.</p>
 <section id="preamble">
 <h4>Preamble<a class="headerlink" href="#preamble" title="Permalink to this headline">¶</a></h4>
@@ -431,11 +439,11 @@ The copyright is by Fabrizio Riguzzi.</p>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-index-0"><dl class="citation">
-<dt class="label" id="raelae95-alt95"><span class="brackets">DRVL95</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id3">2</a>)</span></dt>
+<p id="id4"><dl class="citation">
+<dt class="label" id="id6"><span class="brackets">DRVL95</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id3">2</a>)</span></dt>
 <dd><p>L. De Raedt and W. Van Laer. Inductive constraint logic. In <em>Proceedings of the 6th Conference on Algorithmic Learning Theory (ALT 1995)</em>, volume 997 of LNAI, 80–94. Fukuoka, Japan, 1995. Springer.</p>
 </dd>
-<dt class="label" id="rigbelzesalblam21-ml-ij"><span class="brackets"><a class="fn-backref" href="#id1">RBZ+21</a></span></dt>
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id1">RBZ+21</a></span></dt>
 <dd><p>Fabrizio Riguzzi, Elena Bellodi, Riccardo Zese, Marco Alberti, and Evelina Lamma. Probabilistic inductive constraint logic. <em>Machine Learning</em>, 110:723–754, 2021. <a class="reference external" href="https://doi.org/10.1007/s10994-020-05911-6">doi:10.1007/s10994-020-05911-6</a>.</p>
 </dd>
 </dl>
@@ -454,6 +462,7 @@ The copyright is by Fabrizio Riguzzi.</p>
   <ul>
 <li><a class="reference internal" href="#">Pascal Manual</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#predicate-reference">Predicate Reference</a></li>
 <li><a class="reference internal" href="#installation">Installation</a><ul>
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#example-of-use">Example of use</a></li>
@@ -503,7 +512,7 @@ The copyright is by Fabrizio Riguzzi.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, Riguzzi Fabrizio.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
     </div>
   </body>
 </html>
