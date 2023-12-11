@@ -23,7 +23,7 @@ Pascal is also available in the cplint on SWISH web application at `<http://cpli
 Predicate Reference
 ===================
 
- * `pascal <https://friguzzi.github.io/liftcover/pldoc/pascal.html>`_
+ * `pascal <https://friguzzi.github.io/pascal/pldoc/pascal.html>`_
 
 Installation
 ============
