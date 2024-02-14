@@ -2063,7 +2063,8 @@ random_restarts(N,NR,M,MIP,MI,NEx,Score0,Score,Par0,Par):-
   M:local_setting(minus_infinity,MInf),
   gradient_descent(0,Iter,M,W,MIP,MI,NEx,NR,-MInf),
   evaluate_w(MIP,MI,W,M,_LN,ScoreR),
-  format3(M,"Random_restart: Score ~f~n",[ScoreR]),
+  ScoreOut is -ScoreR,
+  format3(M,"Random_restart: Score ~f~n",[ScoreOut]),
   N1 is N-1,
   (ScoreR<Score0->
     random_restarts(N1,NR,M,MIP,MI,NEx,ScoreR,Score,W,Par)
@@ -2356,11 +2357,11 @@ print_new_clause(Name,M,C,Heur,NC,PC,_Emc,_Epnc):-
         nl,
         copy_term(Name,Name1),
         numbervars(Name1,0,_),
-        format("Name:~p~n",[Name1]),
-        format("Heuristic:~p~n",[Heur]),
-        format("Neg ex ruled out:#~p~n",[NC]),
+        format("Name: ~p~n",[Name1]),
+        format("Score: ~p~n",[Heur]),
+        format("Neg ex ruled out: #~p~n",[NC]),
 %        format("Neg ex ruled out:#~p~n",[Emc]),
-        format("Covered pos ex:#~p~n",[PC]),
+        format("Covered pos ex: #~p~n",[PC]),
 %        format("Covered pos ex:#~p~n",[Epnc]),
 %%        format("correct: ~a, Np=~d, Npa=~d, Nm=~d, Nma=~d\c
 %                ~NPos ex cov: ~p~NNeg ex cov: ~p~NAbduced literals: ~p~N ~N",
@@ -2586,7 +2587,7 @@ print_ref(_Name,M,C,Heur,_NC,_PC,_Emc,_Epnc):-
 		%        copy_term(Name,Name1),
 		%numbervars(Name1,0,_),
 		%format("Name:~p~n",[Name1]),
-        format("Heuristic:~p~n",[Heur]),
+        format("Score: ~p~n",[Heur]),
 %        format("Neg ex ruled out:#~p~n",[NC]),
 %        format("Covered pos ex:#~p~n",[PC]),nl,
         (V>3->
