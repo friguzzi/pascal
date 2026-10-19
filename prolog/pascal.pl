@@ -2007,10 +2007,8 @@ learn_param(Program0,M,Pos,Neg,Program,NewL1):-
   optimizer_initialize(N,pascal,evaluate,progress,[M,MIP,MI],Env),
   init_par(Env,N),
   M:local_setting(max_initial_weight,R),
-  R0 is R*(-1),
-  random(R0,R,R1),  %genera val random in (-1,1)
-  format3(M,"Starting parameters: ~f",[R1]),nl3(M),
-  init_par_val(Env,N,R1),
+%  format3(M,"Starting parameters: ~f",[R1]),nl3(M),
+  init_par_rand(Env,N,R),
   evaluate_L(Env,M,MIP,MI,L),
   IL is -L,
   format3(M,"~nInitial L ~f~n",[IL]),
@@ -2258,6 +2256,15 @@ init_par_val(Env,I,V):-
   I1 is I-1,
   optimizer_set_x(Env,I1,V),
   init_par_val(Env,I1,V).
+
+init_par_rand(_Env,0,_R):-!.
+
+init_par_rand(Env,I,R):-
+  I1 is I-1,
+  R0 is R*(-1),
+  random(R0,R,R1),
+  optimizer_set_x(Env,I1,R1),
+  init_par_rand(Env,I1,R).
 
 compute_grad_w([],_W,_G,_N,_MI,_M,_LN,_NEx,_R,_C):-!.
 
