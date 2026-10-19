@@ -45,7 +45,7 @@
   ]).
 :-use_module(library(system)).
 :-use_module(library(lists)).
-:-use_module(library(lbfgs)).
+:-absolute_file_name(library(lbfgs),F,[solutions(all)]),atomic_concat(F,'.pl',Fpl),exists_file(Fpl),use_module(library(lbfgs));true.
 :-use_module(library(random)).
 :-use_module(library(auc)).
 :-use_module(ic_parser).
@@ -1996,31 +1996,32 @@ learn_param(Program0,M,Pos,Neg,Program,NewL1):-
   convert_prob(Program0,Pr1),
 %  gen_par(0,NC,Par0),
   length(Program0,N),
-  length(Pos,NPos),
-  length(Neg,NNeg),
-  NEx is NPos+NNeg,
+  % length(Pos,NPos),
+  % length(Neg,NNeg),
+  % NEx is NPos+NNeg,
   gen_initial_counts(N,MIP0), %MIP0=vettore di N zeri
   test_theory_pos_prob(Pos,M,Pr1,MIP0,MIP), %MIP=vettore di N zeri
   test_theory_neg_prob(Neg,M,Pr1,N,MI), %MI = [[1, 1, 1, 1, 1, 1, 1|...], [0, 0, 0, 0, 0, 0|...]
 %  flush_output,
 %  optimizer_set_parameter(max_step,0.001),
-  optimizer_initialize(N,pascal,evaluate,[M,MIP,MI,NEx],progress,[M]),
+  optimizer_initialize(N,pascal,evaluate,progress,[M,MIP,MI],Env),
+  init_par(Env,N),
   M:local_setting(max_initial_weight,R),
   R0 is R*(-1),
   random(R0,R,R1),  %genera val random in (-1,1)
   format3(M,"Starting parameters: ~f",[R1]),nl3(M),
-  init_par(N,R1),
-  evaluate_L(MIP,MI,M,L),
+  init_par_val(Env,N,R1),
+  evaluate_L(Env,M,MIP,MI,L),
   IL is -L,
   format3(M,"~nInitial L ~f~n",[IL]),
-  optimizer_run(_LL,Status),
+  optimizer_run(Env,_LL,Status),
   interpret_return_value(Status,Mess),
   format3(M,"Status ~p ~s~n",[Status,Mess]),
   update_theory(Program0,0,Program),
-  evaluate_L(MIP,MI,M,NewL),
+  evaluate_L(Env,M,MIP,MI,NewL),
   NewL1 is -NewL,
   format3(M,"Final L ~f~n~n",[NewL1]),
-  optimizer_finalize.
+  optimizer_finalize(Env).
 
 learn_param(Program0,M,Pos,Neg,Program,NewL1):-
   M:local_setting(learning_algorithm,gradient_descent),!,
@@ -2251,6 +2252,12 @@ init_par(I,R1):-
   optimizer_set_x(I1,R1),
   init_par(I1,R1).
 
+init_par_val(_Env,0,_V):-!.
+
+init_par_val(Env,I,V):-
+  I1 is I-1,
+  optimizer_set_x(Env,I1,V),
+  init_par_val(Env,I1,V).
 
 compute_grad_w([],_W,_G,_N,_MI,_M,_LN,_NEx,_R,_C):-!.
 
@@ -2266,9 +2273,9 @@ compute_grad_w([HMIP|TMIP],W,G,N0,MI,M,LN,NEx,R,C):-
   N1 is N0+1,
   compute_grad_w(TMIP,W,G,N1,MI,M,LN,NEx,R,C).
 
-evaluate_L(MIP,MI,M,L):-
-  compute_likelihood_pos(MIP,0,0,LP),
-  compute_likelihood_neg(MI,LN), %MI lista di liste
+evaluate_L(Env,M,MIP,MI,L):-
+  compute_likelihood_pos(MIP,Env,M,0,0,LP),
+  compute_likelihood_neg(MI,Env,M,LN), %MI lista di liste
   compute_likelihood(LN,LP,M,L). %LN=[6.931471805599453, 0.0, 6.931471805599453, 0.0, 0.0, 0.0, 0.0, 0.0|...]
 
 compute_likelihood([],L,_M,L).
@@ -2284,20 +2291,20 @@ compute_likelihood([HP|TP],L0,M,L):-
   ),
   compute_likelihood(TP,L1,M,L).
 
-compute_likelihood_neg([],[]).
+compute_likelihood_neg([],_Env,_M,[]).
 
-compute_likelihood_neg([HMI|TMI],[HLN|TLN]):- %HMI=lista
-  compute_likelihood_pos(HMI,0,0,HLN),
-  compute_likelihood_neg(TMI,TLN).
+compute_likelihood_neg([HMI|TMI],Env,M,[HLN|TLN]):- %HMI=lista
+  compute_likelihood_pos(HMI,Env,M,0,0,HLN),
+  compute_likelihood_neg(TMI,Env,M,TLN).
 
-compute_likelihood_pos([],_,LP,LP).%LP=0 alla fine
+compute_likelihood_pos([],_Env,_M,_,LP,LP).%LP=0 alla fine
 
-compute_likelihood_pos([HMIP|TMIP],I,LP0,LP):- %primo arg=vettore di 0 MI
-  optimizer_get_x(I,W0), 
+compute_likelihood_pos([HMIP|TMIP],Env,M,I,LP0,LP):- %primo arg=vettore di 0 MI
+  optimizer_get_x(Env,I,W0), 
   P is 1/(1+exp(-W0)), %P=sigma(w)=1/(1+exp(-W0))
   LP1 is LP0-log(1-P)*HMIP,
   I1 is I+1,
-  compute_likelihood_pos(TMIP,I1,LP1,LP).
+  compute_likelihood_pos(TMIP,Env,M,I1,LP1,LP).
 
 compute_grad([],_N,_MI,_M,_R,_C,_NEx,_LN):-!.
 
